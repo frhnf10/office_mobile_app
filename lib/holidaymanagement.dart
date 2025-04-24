@@ -36,7 +36,9 @@ class Holiday extends StatelessWidget {
         }
         return responseBody;
       } else {
-        throw Exception('Failed to send request. Status code: ${response.statusCode}');
+        throw Exception(
+          'Failed to send request. Status code: ${response.statusCode}',
+        );
       }
     } catch (e) {
       print('Error: $e');
@@ -198,34 +200,40 @@ class Holiday extends StatelessWidget {
                   child: ElevatedButton(
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
-                        saveRequest().then((value) {
-                          if (value != null) {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => DashboardPage(),
-                              ),
-                            );
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text('Holiday Request Has Been Sent'),
-                              ),
-                            );
-                          } else {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text('Failed to send request. Please try again.'),
-                              ),
-                            );
-                          }
-                        }).catchError((error) {
-                          print('Error in saveRequest: $error');
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text('An error occurred: $error'),
-                            ),
-                          );
-                        });
+                        saveRequest()
+                            .then((value) {
+                              if (value != null) {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => DashboardPage(),
+                                  ),
+                                );
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text(
+                                      'Holiday Request Has Been Sent',
+                                    ),
+                                  ),
+                                );
+                              } else {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text(
+                                      'Failed to send request. Please try again.',
+                                    ),
+                                  ),
+                                );
+                              }
+                            })
+                            .catchError((error) {
+                              print('Error in saveRequest: $error');
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text('An error occurred: $error'),
+                                ),
+                              );
+                            });
                       }
                     },
                     style: ElevatedButton.styleFrom(
@@ -248,6 +256,48 @@ class Holiday extends StatelessWidget {
               ),
             ],
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class HolidayHRD extends StatelessWidget {
+  HolidayHRD({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text(
+          'Holiday Request',
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 22,
+            fontWeight: FontWeight.w400,
+          ),
+        ),
+        backgroundColor: const Color(0xFFF8964F), // Set the background color
+        leading: Padding(
+          padding: const EdgeInsets.only(left: 8.0),
+          child: Row(
+            children: <Widget>[
+              IconButton(
+                icon: const Icon(Icons.arrow_back, color: Colors.white),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+            ],
+          ),
+        ),
+      ),
+      body: Text(
+        'List of Holiday Requests',
+        style: TextStyle(
+          fontSize: 24,
+          fontWeight: FontWeight.bold,
+          color: Colors.black,
         ),
       ),
     );
