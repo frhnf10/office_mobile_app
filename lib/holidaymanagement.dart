@@ -263,7 +263,7 @@ class Holiday extends StatelessWidget {
 }
 
 class HolidayHRD extends StatelessWidget {
-  HolidayHRD({super.key});
+  const HolidayHRD({super.key});
 
   @override
   Widget build(BuildContext context) {
