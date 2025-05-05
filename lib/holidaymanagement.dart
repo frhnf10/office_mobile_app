@@ -52,11 +52,7 @@ class Holiday extends StatelessWidget {
       appBar: AppBar(
         title: const Text(
           'Holiday Request',
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 22,
-            fontWeight: FontWeight.w400,
-          ),
+          style: TextStyle(color: Colors.white, fontSize: 20),
         ),
         backgroundColor: const Color(0xFFF8964F), // Set the background color
         leading: Padding(
@@ -73,188 +69,147 @@ class Holiday extends StatelessWidget {
           ),
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(50.0),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(height: 50),
-              const Text(
-                'Employee Name',
-                style: TextStyle(
-                  fontWeight: FontWeight.w500,
-                  fontSize: 20,
-                  shadows: [
-                    Shadow(
-                      offset: Offset(2.0, 2.0), // Position of the shadow
-                      blurRadius: 5.0, // Blur effect of the shadow
-                      color: Color.fromARGB(128, 0, 0, 0),
-                    ),
-                  ],
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: 50),
+                const Text(
+                  'Employee Name',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                 ),
-              ),
-              TextFormField(
-                controller: _nameController,
-                decoration: const InputDecoration(
-                  labelText: 'Enter your name',
-                  border: UnderlineInputBorder(),
+                TextFormField(
+                  controller: _nameController,
+                  decoration: const InputDecoration(
+                    labelText: 'Enter your name',
+                    border: UnderlineInputBorder(),
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter your name';
+                    }
+                    return null;
+                  },
                 ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter your name';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 15),
-              const Text(
-                'From',
-                style: TextStyle(
-                  fontWeight: FontWeight.w500,
-                  fontSize: 20,
-                  shadows: [
-                    Shadow(
-                      offset: Offset(2.0, 2.0), // Position of the shadow
-                      blurRadius: 5.0, // Blur effect of the shadow
-                      color: Color.fromARGB(128, 0, 0, 0),
-                    ),
-                  ],
+                const SizedBox(height: 15),
+                const Text(
+                  'From',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                 ),
-              ),
-              TextFormField(
-                controller: _fromedateController,
-                decoration: const InputDecoration(
-                  labelText: 'From',
-                  border: UnderlineInputBorder(),
+                TextFormField(
+                  controller: _fromedateController,
+                  decoration: const InputDecoration(
+                    border: UnderlineInputBorder(),
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter fill your date';
+                    }
+                    return null;
+                  },
                 ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter fill your date';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 15),
-              const Text(
-                'Until',
-                style: TextStyle(
-                  fontWeight: FontWeight.w500,
-                  fontSize: 20,
-                  shadows: [
-                    Shadow(
-                      offset: Offset(2.0, 2.0), // Position of the shadow
-                      blurRadius: 5.0, // Blur effect of the shadow
-                      color: Color.fromARGB(128, 0, 0, 0),
-                    ),
-                  ],
+                const SizedBox(height: 15),
+                const Text(
+                  'Until',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                 ),
-              ),
-              TextFormField(
-                controller: _untildateController,
-                decoration: const InputDecoration(
-                  labelText: 'Until',
-                  border: UnderlineInputBorder(),
+                TextFormField(
+                  controller: _untildateController,
+                  decoration: const InputDecoration(
+                    border: UnderlineInputBorder(),
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter fill your until date';
+                    }
+                    return null;
+                  },
                 ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter fill your until date';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 45),
-              const Text(
-                'Reason',
-                style: TextStyle(
-                  fontWeight: FontWeight.w500,
-                  fontSize: 20,
-                  shadows: [
-                    Shadow(
-                      offset: Offset(2.0, 2.0), // Position of the shadow
-                      blurRadius: 5.0, // Blur effect of the shadow
-                      color: Color.fromARGB(128, 0, 0, 0),
-                    ),
-                  ],
+                const SizedBox(height: 45),
+                const Text(
+                  'Reason',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                 ),
-              ),
-              TextFormField(
-                controller: _reasonController,
-                decoration: const InputDecoration(
-                  labelText: 'Enter your reason',
-                  border: UnderlineInputBorder(),
+                TextFormField(
+                  controller: _reasonController,
+                  decoration: const InputDecoration(
+                    border: UnderlineInputBorder(),
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please explain your reason';
+                    }
+                    return null;
+                  },
                 ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please explain your reason';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 70),
-              Center(
-                child: SizedBox(
-                  width: 200, // Set your desired width
-                  height: 50, // Set your desired height
-                  child: ElevatedButton(
-                    onPressed: () {
-                      if (_formKey.currentState!.validate()) {
-                        saveRequest()
-                            .then((value) {
-                              if (value != null) {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => DashboardPage(),
-                                  ),
-                                );
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text(
-                                      'Holiday Request Has Been Sent',
+                const SizedBox(height: 70),
+                Center(
+                  child: SizedBox(
+                    width: 200, // Set your desired width
+                    height: 50, // Set your desired height
+                    child: ElevatedButton(
+                      onPressed: () {
+                        if (_formKey.currentState!.validate()) {
+                          saveRequest()
+                              .then((value) {
+                                if (value != null) {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => DashboardPage(),
                                     ),
-                                  ),
-                                );
-                              } else {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text(
-                                      'Failed to send request. Please try again.',
+                                  );
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text(
+                                        'Holiday Request Has Been Sent',
+                                      ),
                                     ),
+                                  );
+                                } else {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text(
+                                        'Failed to send request. Please try again.',
+                                      ),
+                                    ),
+                                  );
+                                }
+                              })
+                              .catchError((error) {
+                                print('Error in saveRequest: $error');
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text('An error occurred: $error'),
                                   ),
                                 );
-                              }
-                            })
-                            .catchError((error) {
-                              print('Error in saveRequest: $error');
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text('An error occurred: $error'),
-                                ),
-                              );
-                            });
-                      }
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.blue[400], // Background color
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(
-                          19,
-                        ), // Reduced corner radius
+                              });
+                        }
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.blue[400], // Background color
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(
+                            19,
+                          ), // Reduced corner radius
+                        ),
                       ),
-                    ),
-                    child: const Text(
-                      'Submit',
-                      style: TextStyle(
-                        color: Colors.white, // Text color
-                        fontSize: 16,
+                      child: const Text(
+                        'Submit',
+                        style: TextStyle(
+                          color: Colors.white, // Text color
+                          fontSize: 16,
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

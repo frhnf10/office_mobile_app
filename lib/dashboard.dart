@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:office_mobile_app/landing_page.dart';
+import 'package:office_mobile_app/absence.dart';
+import 'package:office_mobile_app/report.dart';
 import 'package:office_mobile_app/holidaymanagement.dart';
+import 'package:office_mobile_app/instant_message.dart';
+import 'package:office_mobile_app/contact.dart';
 
 class DashboardPage extends StatelessWidget {
   const DashboardPage({super.key});
@@ -10,11 +15,10 @@ class DashboardPage extends StatelessWidget {
       backgroundColor: const Color.fromARGB(255, 254, 234, 219),
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: EdgeInsets.all(10),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Header
               Container(
                 padding: EdgeInsets.all(16),
                 decoration: BoxDecoration(
@@ -46,21 +50,35 @@ class DashboardPage extends StatelessWidget {
                         ),
                         SizedBox(width: 10),
                         CircleAvatar(
-                          backgroundColor: Colors.white,
                           radius: 18,
-                          child: Icon(Icons.person, color: Colors.grey),
+                          child: FloatingActionButton(
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => LandingPage(),
+                                ),
+                              );
+                            },
+                            backgroundColor: Colors.white,
+                            child: Icon(Icons.person, color: Colors.grey),
+                          ),
                         ),
                       ],
                     ),
                   ],
                 ),
               ),
-              SizedBox(height: 10),
+              SizedBox(height: 15),
               // Schedule Today
-              Text('Schedule today', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-              SizedBox(height: 12),
+              Text(
+                'Schedule today',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: 15),
               Container(
                 padding: EdgeInsets.all(20),
+                width: 500,
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(16),
@@ -78,10 +96,13 @@ class DashboardPage extends StatelessWidget {
                   ],
                 ),
               ),
-              SizedBox(height: 30),
+              SizedBox(height: 15),
               // Application Features
-              Text('Application features', style: TextStyle(fontSize: 18)),
-              SizedBox(height: 16),
+              Text(
+                'Application features',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: 15),
               GridView.count(
                 crossAxisCount: 3,
                 shrinkWrap: true,
@@ -89,75 +110,125 @@ class DashboardPage extends StatelessWidget {
                 mainAxisSpacing: 16,
                 crossAxisSpacing: 16,
                 children: [
-                  _buildFeature(
-                    context,
-                    Icons.fingerprint,
-                    'Absence\nattendance',
-                    () {
-                      // Push ke halaman yang sama
+                  FloatingActionButton(
+                    onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(
-                          builder: (context) => DashboardPage(),
-                        ),
+                        MaterialPageRoute(builder: (context) => Absence()),
                       );
                     },
+                    backgroundColor: Colors.white,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(Icons.fingerprint, size: 32, color: Colors.blue),
+                        SizedBox(height: 4),
+                        Text(
+                          'Absence\nattendance',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(fontSize: 12, color: Colors.black),
+                        ),
+                      ],
+                    ),
                   ),
-                  _buildFeature(context, Icons.report, 'Report', () {}),
-                  _buildFeature(
-                    context,
-                    Icons.beach_access,
-                    'Management\nHoliday',
-                    () {
-                      // Push ke halaman holiday management
+                  FloatingActionButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => Report()),
+                      );
+                    },
+                    backgroundColor: Colors.white,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(Icons.report, size: 32, color: Colors.blue),
+                        SizedBox(height: 4),
+                        Text(
+                          'Report',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(fontSize: 12, color: Colors.black),
+                        ),
+                      ],
+                    ),
+                  ),
+                  FloatingActionButton(
+                    onPressed: () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(builder: (context) => Holiday()),
                       );
                     },
+                    backgroundColor: Colors.white,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.beach_access,
+                          size: 32,
+                          color: Colors.blue,
+                        ),
+                        SizedBox(height: 4),
+                        Text(
+                          'Management\nHoliday',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(fontSize: 12, color: Colors.black),
+                        ),
+                      ],
+                    ),
                   ),
-                  _buildFeature(
-                    context,
-                    Icons.message,
-                    'Instant\nMessage',
-                    () {},
+                  FloatingActionButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => InstantMessage(),
+                        ),
+                      );
+                    },
+                    backgroundColor: Colors.white,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(Icons.message, size: 32, color: Colors.blue),
+                        SizedBox(height: 4),
+                        Text(
+                          'Instant\nMessage',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(fontSize: 12, color: Colors.black),
+                        ),
+                      ],
+                    ),
                   ),
-                  _buildFeature(context, Icons.contact_page, 'Contact', () {}),
+                  FloatingActionButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => Contact()),
+                      );
+                    },
+                    backgroundColor: Colors.white,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.contact_page,
+                          size: 32,
+                          color: Colors.blue,
+                        ),
+                        SizedBox(height: 4),
+                        Text(
+                          'Contact',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(fontSize: 12, color: Colors.black),
+                        ),
+                      ],
+                    ),
+                  ),
                 ],
               ),
             ],
           ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildFeature(
-    BuildContext context,
-    IconData icon,
-    String label,
-    VoidCallback onTap,
-  ) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(16),
-          boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 6)],
-        ),
-        padding: EdgeInsets.all(12),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(icon, size: 32, color: Colors.blue),
-            SizedBox(height: 8),
-            Text(
-              label,
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 12),
-            ),
-          ],
         ),
       ),
     );
@@ -170,166 +241,212 @@ class DashboardPageHRD extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFF2F2F2),
+      backgroundColor: const Color.fromARGB(255, 254, 234, 219),
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Header
-                Container(
-                  padding: EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    color: Colors.orange,
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Welcome',
-                            style: TextStyle(color: Colors.white),
+        child: Padding(
+          padding: EdgeInsets.all(10),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                padding: EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: Colors.orange,
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('Welcome,', style: TextStyle(color: Colors.white)),
+                        SizedBox(height: 4),
+                        Text(
+                          'Farhan Fath',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
                           ),
-                          SizedBox(height: 4),
-                          Text(
-                            'Farhan Fath',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Text('HRD', style: TextStyle(color: Colors.white)),
-                          SizedBox(width: 10),
-                          CircleAvatar(
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Text('HRD', style: TextStyle(color: Colors.white)),
+                        SizedBox(width: 10),
+                        CircleAvatar(
+                          radius: 18,
+                          child: FloatingActionButton(
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => LandingPage(),
+                                ),
+                              );
+                            },
                             backgroundColor: Colors.white,
-                            radius: 18,
                             child: Icon(Icons.person, color: Colors.grey),
                           ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(height: 30),
-                // Schedule Today
-                Text('Schedule today', style: TextStyle(fontSize: 18)),
-                SizedBox(height: 12),
-                Container(
-                  padding: EdgeInsets.all(20),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(16),
-                    boxShadow: [
-                      BoxShadow(color: Colors.black12, blurRadius: 6),
-                    ],
-                  ),
-                  child: Column(
-                    children: [
-                      Icon(
-                        Icons.calendar_today_outlined,
-                        size: 50,
-                        color: Colors.grey,
-                      ),
-                      SizedBox(height: 10),
-                      Text('No schedule', style: TextStyle(color: Colors.grey)),
-                    ],
-                  ),
-                ),
-                SizedBox(height: 30),
-                // Application Features
-                Text('Application features', style: TextStyle(fontSize: 18)),
-                SizedBox(height: 16),
-                GridView.count(
-                  crossAxisCount: 3,
-                  shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                  mainAxisSpacing: 16,
-                  crossAxisSpacing: 16,
-                  children: [
-                    _buildFeature(
-                      context,
-                      Icons.fingerprint,
-                      'Absence\nattendance',
-                      () {
-                        // Push ke halaman yang sama
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => DashboardPageHRD(),
-                          ),
-                        );
-                      },
-                    ),
-                    _buildFeature(context, Icons.report, 'Report', () {}),
-                    _buildFeature(
-                      context,
-                      Icons.beach_access,
-                      'Management\nHoliday',
-                      () {
-                        // Push ke halaman holiday management
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => HolidayHRD()),
-                        );
-                      },
-                    ),
-                    _buildFeature(
-                      context,
-                      Icons.message,
-                      'Instant\nMessage',
-                      () {},
-                    ),
-                    _buildFeature(
-                      context,
-                      Icons.contact_page,
-                      'Contact',
-                      () {},
+                        ),
+                      ],
                     ),
                   ],
                 ),
-              ],
-            ),
+              ),
+              SizedBox(height: 15),
+              // Schedule Today
+              Text(
+                'Schedule today',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: 15),
+              Container(
+                padding: EdgeInsets.all(20),
+                width: 500,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(16),
+                  boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 6)],
+                ),
+                child: Column(
+                  children: [
+                    Icon(
+                      Icons.calendar_today_outlined,
+                      size: 50,
+                      color: Colors.grey,
+                    ),
+                    SizedBox(height: 10),
+                    Text('No schedule', style: TextStyle(color: Colors.grey)),
+                  ],
+                ),
+              ),
+              SizedBox(height: 15),
+              // Application Features
+              Text(
+                'Application features',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: 15),
+              GridView.count(
+                crossAxisCount: 3,
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                mainAxisSpacing: 16,
+                crossAxisSpacing: 16,
+                children: [
+                  FloatingActionButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => Absence()),
+                      );
+                    },
+                    backgroundColor: Colors.white,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(Icons.fingerprint, size: 32, color: Colors.blue),
+                        SizedBox(height: 4),
+                        Text(
+                          'Absence\nattendance',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(fontSize: 12, color: Colors.black),
+                        ),
+                      ],
+                    ),
+                  ),
+                  FloatingActionButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => Report()),
+                      );
+                    },
+                    backgroundColor: Colors.white,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(Icons.report, size: 32, color: Colors.blue),
+                        SizedBox(height: 4),
+                        Text(
+                          'Report',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(fontSize: 12, color: Colors.black),
+                        ),
+                      ],
+                    ),
+                  ),
+                  FloatingActionButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => Holiday()),
+                      );
+                    },
+                    backgroundColor: Colors.white,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(Icons.beach_access, size: 32, color: Colors.blue),
+                        SizedBox(height: 4),
+                        Text(
+                          'Management\nHoliday',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(fontSize: 12, color: Colors.black),
+                        ),
+                      ],
+                    ),
+                  ),
+                  FloatingActionButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => InstantMessage(),
+                        ),
+                      );
+                    },
+                    backgroundColor: Colors.white,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(Icons.message, size: 32, color: Colors.blue),
+                        SizedBox(height: 4),
+                        Text(
+                          'Instant\nMessage',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(fontSize: 12, color: Colors.black),
+                        ),
+                      ],
+                    ),
+                  ),
+                  FloatingActionButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => Contact()),
+                      );
+                    },
+                    backgroundColor: Colors.white,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(Icons.contact_page, size: 32, color: Colors.blue),
+                        SizedBox(height: 4),
+                        Text(
+                          'Contact',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(fontSize: 12, color: Colors.black),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ],
           ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildFeature(
-    BuildContext context,
-    IconData icon,
-    String label,
-    VoidCallback onTap,
-  ) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(16),
-          boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 6)],
-        ),
-        padding: EdgeInsets.all(12),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(icon, size: 32, color: Colors.blue),
-            SizedBox(height: 8),
-            Text(
-              label,
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 12),
-            ),
-          ],
         ),
       ),
     );
