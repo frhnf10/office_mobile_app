@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key});
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(title: 'Office Management App', home: Holiday());
+    return MaterialApp(title: 'Office Management App', home: HolidayHRD());
     // return MaterialApp(title: 'Tester', home: widgettest());
   }
 }

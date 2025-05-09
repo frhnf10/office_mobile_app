@@ -14,10 +14,10 @@ class Holiday extends StatelessWidget {
   final TextEditingController _reasonController = TextEditingController();
   Future saveRequest() async {
     try {
-      print('Name: ${_nameController.text}');
-      print('From Date: ${_fromedateController.text}');
-      print('Until Date: ${_untildateController.text}');
-      print('Reason: ${_reasonController.text}');
+      // print('Name: ${_nameController.text}');
+      // print('From Date: ${_fromedateController.text}');
+      // print('Until Date: ${_untildateController.text}');
+      // print('Reason: ${_reasonController.text}');
 
       final response = await http.post(
         Uri.parse('http://flutter-db-officemobile.test:8080/api'),
@@ -220,6 +220,15 @@ class Holiday extends StatelessWidget {
 class HolidayHRD extends StatelessWidget {
   const HolidayHRD({super.key});
 
+  final String url = 'http://flutter-db-officemobile.test:8080/api';
+  Future<List<dynamic>> fetchHolidayRequests() async {
+    final response = await http.get(Uri.parse(url));
+    if (response.statusCode == 200) {
+      return json.decode(response.body);
+    } else {
+      throw Exception('Failed to load holiday requests');
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -247,13 +256,31 @@ class HolidayHRD extends StatelessWidget {
           ),
         ),
       ),
-      body: Text(
-        'List of Holiday Requests',
-        style: TextStyle(
-          fontSize: 24,
-          fontWeight: FontWeight.bold,
-          color: Colors.black,
-        ),
+      body: FutureBuilder<List<dynamic>>(
+        future: fetchHolidayRequests(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+            return const Center(child: Text('No holiday requests found.'));
+          } else {
+            final holidayRequests = snapshot.data!;
+            return ListView.builder(
+              itemCount: holidayRequests.length,
+              itemBuilder: (context, index) {
+                final request = holidayRequests[index];
+                return ListTile(
+                  title: Text(request['Employee_Name']),
+                  subtitle: Text(
+                    'From: ${request['From_Date']}\nUntil: ${request['Until_Date']}\nReason: ${request['Reason']}',
+                  ),
+                );
+              },
+            );
+          }
+        },
       ),
     );
   }
