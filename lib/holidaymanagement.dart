@@ -12,20 +12,17 @@ class Holiday extends StatelessWidget {
   final TextEditingController _fromedateController = TextEditingController();
   final TextEditingController _untildateController = TextEditingController();
   final TextEditingController _reasonController = TextEditingController();
+
   Future saveRequest() async {
     try {
-      // print('Name: ${_nameController.text}');
-      // print('From Date: ${_fromedateController.text}');
-      // print('Until Date: ${_untildateController.text}');
-      // print('Reason: ${_reasonController.text}');
-
       final response = await http.post(
-        Uri.parse('http://flutter-db-officemobile.test:8080/api'),
+        // Uri.parse('http://flutter-db-officemobile.test:8080/api/post'),
+        Uri.parse('http://10.60.227.10:8000/api/post'),
         body: {
-          'Employee_Name': _nameController.text,
-          'From_Date': _fromedateController.text,
-          'Until_Date': _untildateController.text,
-          'Reason': _reasonController.text,
+          'employee_name': _nameController.text,
+          'from_date': _fromedateController.text,
+          'until_date': _untildateController.text,
+          'reason': _reasonController.text,
         },
       );
 
@@ -102,12 +99,27 @@ class Holiday extends StatelessWidget {
                 ),
                 TextFormField(
                   controller: _fromedateController,
+                  readOnly: true,
                   decoration: const InputDecoration(
                     border: UnderlineInputBorder(),
+                    hintText: 'Select start date',
                   ),
+                  onTap: () async {
+                    FocusScope.of(context).requestFocus(FocusNode());
+                    DateTime? picked = await showDatePicker(
+                      context: context,
+                      initialDate: DateTime.now(),
+                      firstDate: DateTime(2000),
+                      lastDate: DateTime(2100),
+                    );
+                    if (picked != null) {
+                      _fromedateController.text =
+                          "${picked.year}-${picked.month.toString().padLeft(2, '0')}-${picked.day.toString().padLeft(2, '0')}";
+                    }
+                  },
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Please enter fill your date';
+                      return 'Please select your start date';
                     }
                     return null;
                   },
@@ -119,17 +131,32 @@ class Holiday extends StatelessWidget {
                 ),
                 TextFormField(
                   controller: _untildateController,
+                  readOnly: true,
                   decoration: const InputDecoration(
                     border: UnderlineInputBorder(),
+                    hintText: 'Select end date',
                   ),
+                  onTap: () async {
+                    FocusScope.of(context).requestFocus(FocusNode());
+                    DateTime? picked = await showDatePicker(
+                      context: context,
+                      initialDate: DateTime.now(),
+                      firstDate: DateTime(2000),
+                      lastDate: DateTime(2100),
+                    );
+                    if (picked != null) {
+                      _untildateController.text =
+                          "${picked.year}-${picked.month.toString().padLeft(2, '0')}-${picked.day.toString().padLeft(2, '0')}";
+                    }
+                  },
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Please enter fill your until date';
+                      return 'Please select your end date';
                     }
                     return null;
                   },
                 ),
-                const SizedBox(height: 45),
+                const SizedBox(height: 15),
                 const Text(
                   'Reason',
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
@@ -138,6 +165,7 @@ class Holiday extends StatelessWidget {
                   controller: _reasonController,
                   decoration: const InputDecoration(
                     border: UnderlineInputBorder(),
+                    hintText: 'Masukkan alasan Anda',
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -217,29 +245,39 @@ class Holiday extends StatelessWidget {
   }
 }
 
-class HolidayHRD extends StatelessWidget {
+class HolidayHRD extends StatefulWidget {
   const HolidayHRD({super.key});
 
-  final String url = 'http://flutter-db-officemobile.test:8080/api';
-  Future<List<dynamic>> fetchHolidayRequests() async {
-    final response = await http.get(Uri.parse(url));
-    if (response.statusCode == 200) {
-      return json.decode(response.body);
-    } else {
-      throw Exception('Failed to load holiday requests');
-    }
+  @override
+  State<HolidayHRD> createState() => _HolidayHRDState();
+}
+
+class _HolidayHRDState extends State<HolidayHRD> {
+  Future getEmployeesHoliday() async {
+    final response = await http.get(
+      // Uri.parse('http://flutter-db-officemobile.test:8080/api/holidayHRD'),
+      Uri.parse('http://10.60.227.10:8000/api/holidayHRD'),
+    );
+    return json.decode(response.body);
   }
+
+  Future Rejected(String employeeID) async {
+    String url =
+        // 'http://flutter-db-officemobile.test:8080/api/holidayHRD/$employeeID';
+        'http://10.60.227.10:8000/api/holidayHRD/$employeeID';
+    var response = await http.delete(Uri.parse(url)); // Mengambil data dari API
+    return json.decode(
+      response.body,
+    ); // Mengubah data dari JSON ke dalam bentuk Map
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'Holiday Request',
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 22,
-            fontWeight: FontWeight.w400,
-          ),
+          'Employee Holiday Request',
+          style: TextStyle(color: Colors.white, fontSize: 20),
         ),
         backgroundColor: const Color(0xFFF8964F), // Set the background color
         leading: Padding(
@@ -256,29 +294,111 @@ class HolidayHRD extends StatelessWidget {
           ),
         ),
       ),
-      body: FutureBuilder<List<dynamic>>(
-        future: fetchHolidayRequests(),
+      body: FutureBuilder(
+        future: getEmployeesHoliday(),
         builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}'));
-          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return const Center(child: Text('No holiday requests found.'));
-          } else {
-            final holidayRequests = snapshot.data!;
+          if (snapshot.hasData) {
             return ListView.builder(
-              itemCount: holidayRequests.length,
+              itemCount: snapshot.data['data'].length,
               itemBuilder: (context, index) {
-                final request = holidayRequests[index];
-                return ListTile(
-                  title: Text(request['Employee_Name']),
-                  subtitle: Text(
-                    'From: ${request['From_Date']}\nUntil: ${request['Until_Date']}\nReason: ${request['Reason']}',
+                return SafeArea(
+                  child: Card(
+                    elevation: 5,
+                    child: Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            snapshot.data['data'][index]['employee_name'],
+                            style: TextStyle(
+                              fontSize: 20.0,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            'Durasi Izin:',
+                            style: TextStyle(
+                              fontSize: 16.0,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Text(
+                            '${snapshot.data['data'][index]['from_date']}',
+                            style: TextStyle(fontSize: 16.0),
+                          ),
+                          Text('s/d'),
+                          Text(
+                            '${snapshot.data['data'][index]['until_date']}',
+                            style: TextStyle(fontSize: 16.0),
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            'Alasan:',
+                            style: TextStyle(
+                              fontSize: 16.0,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Text(
+                            snapshot.data['data'][index]['reason'],
+                            style: TextStyle(fontSize: 16.0),
+                          ),
+                          const SizedBox(height: 16),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  Rejected(
+                                    snapshot.data['data'][index]['id']
+                                        .toString(),
+                                  ).then((value) {
+                                    setState(() {});
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(content: Text('Izin Ditolak')),
+                                    );
+                                  });
+                                },
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 16.0,
+                                    vertical: 8.0,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: Colors.red[400],
+                                    borderRadius: BorderRadius.circular(8.0),
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      Icon(
+                                        Icons.cancel_outlined,
+                                        color: Colors.white,
+                                      ),
+                                      const SizedBox(width: 8),
+                                      Text(
+                                        'Tolak',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                 );
               },
             );
+          } else {
+            return Text('Data Error');
           }
         },
       ),

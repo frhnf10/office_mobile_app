@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:office_mobile_app/dashboard.dart';
+import 'package:office_mobile_app/login.dart';
 
 class LandingPage extends StatelessWidget {
   const LandingPage({super.key});
@@ -36,9 +36,7 @@ class LandingPage extends StatelessWidget {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(
-                          builder: (context) => const DashboardPage(),
-                        ),
+                        MaterialPageRoute(builder: (context) => const Login()),
                       );
                     },
                     style: ElevatedButton.styleFrom(
@@ -47,7 +45,7 @@ class LandingPage extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.all(15.0),
                       child: Text(
-                        'Sign in as Employee',
+                        'Sign In as Employee',
                         style: TextStyle(color: Colors.white, fontSize: 15.0),
                         textAlign: TextAlign.center,
                       ),
@@ -59,7 +57,7 @@ class LandingPage extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const DashboardPageHRD(),
+                          builder: (context) => const LoginHRD(),
                         ),
                       );
                     },
@@ -69,7 +67,7 @@ class LandingPage extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.all(15.0),
                       child: Text(
-                        'Sign in as HRD',
+                        'Sign In as HRD',
                         style: TextStyle(color: Colors.black, fontSize: 15.0),
                         textAlign: TextAlign.center,
                       ),

@@ -1,6 +1,6 @@
-# office_mobile_app
+# Office Mobile App
 
-A new Flutter project.
+Kind of mobile app for employee management and monitoring by HR
 
 ## Getting Started
 
